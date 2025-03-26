@@ -1,6 +1,5 @@
 const hre = require("hardhat");
-const fs = require('node:fs/promises');
-const path = require("path");
+const { getNetworkConfig } = require("../utils/config");
 
 const getDeployer = async () => {
     const [deployer] = await hre.ethers.getSigners();
@@ -11,17 +10,6 @@ const getDeployer = async () => {
 const checkBalance = async (deployer) => {
     const balance = await hre.ethers.provider.getBalance(deployer.address);
     console.log("Account balance:", hre.ethers.formatEther(balance), "ETH");
-};
-
-const loadNetworkConfig = async () => {
-    const configPath = path.join(__dirname, "../config/networks.json");
-    const configData = await fs.readFile(configPath, "utf-8");
-    return JSON.parse(configData);
-};
-
-const getNetworkConfig = (network, networkConfig) => {
-    if (!networkConfig[network]) throw new Error(`No config found for network: ${network}`);
-    return networkConfig[network];
 };
 
 const deploySwapContract = async (swapRouter, dai, weth) => {
@@ -37,8 +25,7 @@ const main = async () => {
         await checkBalance(deployer);
 
         const network = hre.network.name;
-        const networkConfig = await loadNetworkConfig();
-        const { swapRouter, dai, weth } = getNetworkConfig(network, networkConfig);
+        const { swapRouter, dai, weth } = await getNetworkConfig(network);
 
         console.log(`Deploying on ${network}...`);
         console.log("SwapRouter:", swapRouter);
