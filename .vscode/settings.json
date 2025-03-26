@@ -1,0 +1,26 @@
+{
+    "editor.formatOnSave": false,
+    "latex-workshop.latex.autoBuild.run": "never",
+    "[latex]": {
+        "editor.wordWrap": "on"
+    },
+    "files.associations": {
+        "**/out**.js": "plaintext"
+    },
+    "workbench.colorCustomizations": {
+        "tab.activeBorderTop": "#E94E77",
+        "tab.activeBorder": "#E94E77",
+        "activityBar.background": "#202227",
+        "titleBar.activeBackground": "#5F5B8C",
+        "titleBar.activeForeground": "#FFFFFF",
+        "editor.background": "#17171F",
+        "editor.foreground": "#FFFFFF",
+        "editorCursor.foreground": "#E94E77",
+        "editor.lineHighlightBackground": "#2E2E38",
+        "editor.selectionBackground": "#3E3E49"
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+}

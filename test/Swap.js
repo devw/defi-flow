@@ -1,7 +1,6 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
-const fs = require("fs");
-const path = require("path");
+const { getNetworkConfig } = require("../utils/config");
 
 describe("Swap Contract", function () {
     let swapContract;
@@ -11,26 +10,9 @@ describe("Swap Contract", function () {
     let swapRouter;
 
     before(async function () {
-        // Get the deployer's address
         [owner] = await ethers.getSigners();
-
-        // Load network configuration
         const network = hre.network.name; // Example: 'sepolia' or 'mainnet'
-        const configPath = path.join(__dirname, "../config/networks.json");
-
-        if (!fs.existsSync(configPath)) {
-            console.error("❌ Config file not found:", configPath);
-            process.exit(1);
-        }
-
-        const networkConfig = JSON.parse(fs.readFileSync(configPath, "utf-8"));
-        if (!networkConfig[network]) {
-            console.error(`❌ No config found for network: ${network}`);
-            process.exit(1);
-        }
-
-        // Extract contract addresses from config
-        ({ swapRouter, dai: DAI, weth: WETH9 } = networkConfig[network]);
+        ({ swapRouter, dai: DAI, weth: WETH9 } = await getNetworkConfig(network));
 
         console.log(`Running tests on ${network}...`);
         console.log("SwapRouter:", swapRouter);
