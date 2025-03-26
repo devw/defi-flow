@@ -48,3 +48,8 @@ To verify a new smart contract, execute the following command:
 ```
 node scripts/verify.js sepolia <Contract Address>
 ```
+
+To retrieve the balance stored within the smart contract, execute the following command in your terminal: 
+```
+npx hardhat run scripts/get-weth-balance.js --network sepolia
+```
