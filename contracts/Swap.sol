@@ -18,37 +18,59 @@ contract Swap {
     }
 
     function transferWETH9ToContract(uint256 amountIn) internal {
-        TransferHelper.safeTransferFrom(WETH9, msg.sender, address(this), amountIn);
+        TransferHelper.safeTransferFrom(
+            WETH9,
+            msg.sender,
+            address(this),
+            amountIn
+        );
     }
 
     function approveSwapRouter(uint256 amountIn) internal {
         TransferHelper.safeApprove(WETH9, address(swapRouter), amountIn);
     }
 
-    function prepareSwapParams(uint256 amountIn, uint256 minOut, uint160 priceLimit) internal view returns (ISwapRouter.ExactInputSingleParams memory) {
-        return ISwapRouter.ExactInputSingleParams({
-            tokenIn: WETH9,
-            tokenOut: DAI,
-            fee: feeTier,
-            recipient: msg.sender,
-            deadline: block.timestamp,
-            amountIn: amountIn,
-            amountOutMinimum: minOut,
-            sqrtPriceLimitX96: priceLimit
-        });
+    function getWETHBalance() external view returns (uint256) {
+        return IERC20(WETH9).balanceOf(address(this)); // Get the WETH balance of the contract
     }
 
-    function executeSwap(ISwapRouter.ExactInputSingleParams memory params) internal returns (uint256) {
+    function prepareSwapParams(
+        uint256 amountIn,
+        uint256 minOut,
+        uint160 priceLimit
+    ) internal view returns (ISwapRouter.ExactInputSingleParams memory) {
+        return
+            ISwapRouter.ExactInputSingleParams({
+                tokenIn: WETH9,
+                tokenOut: DAI,
+                fee: feeTier,
+                recipient: msg.sender,
+                deadline: block.timestamp,
+                amountIn: amountIn,
+                amountOutMinimum: minOut,
+                sqrtPriceLimitX96: priceLimit
+            });
+    }
+
+    function executeSwap(
+        ISwapRouter.ExactInputSingleParams memory params
+    ) internal returns (uint256) {
         return swapRouter.exactInputSingle(params);
     }
 
-    function swapWETHForDAI(uint256 amountIn) external returns (uint256 amountOut) {
+    function swapWETHForDAI(
+        uint256 amountIn
+    ) external returns (uint256 amountOut) {
         uint256 minOut = 0; // Calculate minimum output as needed
         uint160 priceLimit = 0; // Calculate price limit as needed
 
         transferWETH9ToContract(amountIn);
         approveSwapRouter(amountIn);
-        ISwapRouter.ExactInputSingleParams memory params = prepareSwapParams(amountIn, minOut, priceLimit);
+        ISwapRouter.ExactInputSingleParams memory params = prepareSwapParams(
+            amountIn,
+            minOut,
+            priceLimit
+        );
         amountOut = executeSwap(params);
     }
 }

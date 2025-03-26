@@ -43,3 +43,8 @@ Where:
 - Contract Address: 0xc90F75633540CFA9A5cD34e9456E3c509A61a107
 - Blockchain: Ethereum Sepolia Testnet
 - Access: Full source code verification available via Etherscan
+
+To verify a new smart contract, execute the following command:
+```
+node scripts/verify.js sepolia <Contract Address>
+```
