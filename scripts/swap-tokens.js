@@ -1,7 +1,5 @@
 // const { ethers } = require("hardhat");
 const { ethers } = require("hardhat");
-const fs = require("node:fs/promises");
-const path = require("path");
 const { getNetworkConfig } = require("../utils/config");
 
 const getContractAddresses = (networkConfig) => ({

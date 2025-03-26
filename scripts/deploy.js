@@ -20,25 +20,20 @@ const deploySwapContract = async (swapRouter, dai, weth) => {
 };
 
 const main = async () => {
-    try {
-        const deployer = await getDeployer();
-        await checkBalance(deployer);
+    const deployer = await getDeployer();
+    await checkBalance(deployer);
 
-        const network = hre.network.name;
-        const { swapRouter, dai, weth } = await getNetworkConfig(network);
+    const network = hre.network.name;
+    const { swapRouter, dai, weth } = await getNetworkConfig(network);
 
-        console.log(`Deploying on ${network}...`);
-        console.log("SwapRouter:", swapRouter);
-        console.log("DAI:", dai);
-        console.log("WETH:", weth);
+    console.log(`Deploying on ${network}...`);
+    console.log("SwapRouter:", swapRouter);
+    console.log("DAI:", dai);
+    console.log("WETH:", weth);
 
-        const swap = await deploySwapContract(swapRouter, dai, weth);
-        console.log("\n✅ Deployment successful!");
-        console.log("Swap contract deployed to:", await swap.getAddress());
-    } catch (error) {
-        console.error(error);
-        process.exitCode = 1;
-    }
+    const swap = await deploySwapContract(swapRouter, dai, weth);
+    console.log("\n✅ Deployment successful!");
+    console.log("Swap contract deployed to:", await swap.getAddress());
 };
 
-main();
+main().catch((err) => console.log(err));
