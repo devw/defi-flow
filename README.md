@@ -1,12 +1,10 @@
 # DeFi Project
 
-This project demonstrates a basic Hardhat use case. It comes with a sample contract, a test for that contract, and a Hardhat Ignition module that deploys that contract.
+This project demonstrates a simple DeFi contract that facilitates the swapping of WETH9 for DAI using the Uniswap V3 protocol. The contract utilizes the SwapRouter from Uniswap to perform token swaps on behalf of the users. It allows users to transfer WETH9 into the contract and automatically execute a trade to convert it into DAI, ensuring seamless decentralized exchange interaction.
 
 Try running some of the following tasks:
 
 ```shell
-npx hardhat help
-npx hardhat test
 REPORT_GAS=true npx hardhat test
 npx hardhat node
 npx hardhat ignition deploy ./ignition/modules/Lock.js

@@ -4,6 +4,7 @@
     "main": "index.js",
     "license": "MIT",
     "scripts": {
+        "help": "npx hardhat help",
         "clean": "rm -rf artifacts/ cache/",
         "test": "npx hardhat test --network hardhat",
         "compile": "npx hardhat compile --network hardhat",
