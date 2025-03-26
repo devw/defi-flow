@@ -6,7 +6,7 @@ const main = async () => {
     console.log("Using account:", signer.address);
 
     // Contract address of the deployed contract
-    const contractAddress = "0xc90F75633540CFA9A5cD34e9456E3c509A61a107";
+    const contractAddress = "0x9FD6b6693BE719E2169f4E81B97d1E59325305dD";
 
     // ABI with the getWETHBalance function
     const abi = ["function getWETHBalance() external view returns (uint256)"];
@@ -16,7 +16,7 @@ const main = async () => {
 
     // Call the getWETHBalance function
     const balance = await contract.getWETHBalance();
-    console.log("WETH Balance in Contract:", ethers.utils.formatUnits(balance, 18)); // WETH is typically 18 decimals
-}
+    console.log("WETH Balance in Contract:", ethers.formatUnits(balance, 18)); // WETH is typically 18 decimals
+};
 
 main().catch((err) => console.log(err));
