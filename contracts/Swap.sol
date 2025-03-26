@@ -17,34 +17,38 @@ contract Swap {
         WETH9 = _WETH9;
     }
 
-    function swapWETHForDAI(
-        uint256 amountIn
-    ) external returns (uint256 amountOut) {
-        // Transfer the specified amount of WETH9 to this contract.
-        TransferHelper.safeTransferFrom(
-            WETH9,
-            msg.sender,
-            address(this),
-            amountIn
-        );
-        // Approve the router to spend WETH9.
+    function transferWETH9ToContract(uint256 amountIn) internal {
+        TransferHelper.safeTransferFrom(WETH9, msg.sender, address(this), amountIn);
+    }
+
+    function approveSwapRouter(uint256 amountIn) internal {
         TransferHelper.safeApprove(WETH9, address(swapRouter), amountIn);
-        // Note: To use this example, you should explicitly set slippage limits, omitting for simplicity
-        uint256 minOut = /* Calculate min output */ 0;
-        uint160 priceLimit = /* Calculate price limit */ 0;
-        // Create the params that will be used to execute the swap
-        ISwapRouter.ExactInputSingleParams memory params = ISwapRouter
-            .ExactInputSingleParams({
-                tokenIn: WETH9,
-                tokenOut: DAI,
-                fee: feeTier,
-                recipient: msg.sender,
-                deadline: block.timestamp,
-                amountIn: amountIn,
-                amountOutMinimum: minOut,
-                sqrtPriceLimitX96: priceLimit
-            });
-        // The call to `exactInputSingle` executes the swap.
-        amountOut = swapRouter.exactInputSingle(params);
+    }
+
+    function prepareSwapParams(uint256 amountIn, uint256 minOut, uint160 priceLimit) internal view returns (ISwapRouter.ExactInputSingleParams memory) {
+        return ISwapRouter.ExactInputSingleParams({
+            tokenIn: WETH9,
+            tokenOut: DAI,
+            fee: feeTier,
+            recipient: msg.sender,
+            deadline: block.timestamp,
+            amountIn: amountIn,
+            amountOutMinimum: minOut,
+            sqrtPriceLimitX96: priceLimit
+        });
+    }
+
+    function executeSwap(ISwapRouter.ExactInputSingleParams memory params) internal returns (uint256) {
+        return swapRouter.exactInputSingle(params);
+    }
+
+    function swapWETHForDAI(uint256 amountIn) external returns (uint256 amountOut) {
+        uint256 minOut = 0; // Calculate minimum output as needed
+        uint160 priceLimit = 0; // Calculate price limit as needed
+
+        transferWETH9ToContract(amountIn);
+        approveSwapRouter(amountIn);
+        ISwapRouter.ExactInputSingleParams memory params = prepareSwapParams(amountIn, minOut, priceLimit);
+        amountOut = executeSwap(params);
     }
 }
