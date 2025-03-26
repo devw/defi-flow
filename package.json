@@ -8,7 +8,8 @@
         "clean": "rm -rf artifacts/ cache/",
         "test": "npx hardhat test --network hardhat",
         "compile": "npx hardhat compile --network hardhat",
-        "deploy": "npx hardhat run scripts/deploy.js --network hardhat"
+        "deploy": "npx hardhat run scripts/deploy.js --network hardhat",
+        "swap-tokens": "npx hardhat run scripts/swap-tokens.js --network hardhat"
     },
     "devDependencies": {
         "@nomicfoundation/hardhat-chai-matchers": "^2.0.0",

@@ -1,3 +1,4 @@
+// const { ethers } = require("hardhat");
 const { ethers } = require("hardhat");
 const fs = require("node:fs/promises");
 const path = require("path");
@@ -5,7 +6,7 @@ const path = require("path");
 const getNetworkConfig = async (network) => {
     const configPath = path.join(__dirname, "../config/networks.json");
     const configData = await fs.readFile(configPath, "utf-8");
-    return JSON.parse(configData);
+    return JSON.parse(configData)[network];
 };
 
 const getContractAddresses = (networkConfig) => ({
@@ -25,13 +26,14 @@ const getSigner = async () => {
     return deployer;
 };
 
-const getAmountIn = () => ethers.utils.parseUnits("1", 18); // 1 WETH
+const getAmountIn = () => ethers.parseEther("1", 18); // 1 WETH
 
 const initiateSwap = async (swapContract, amountIn, deployer) => {
     console.log("Initiating swap...");
     const tx = await swapContract.swapWETHForDAI(amountIn);
     const receipt = await tx.wait();
-    console.log("Swap successful! Transaction hash:", receipt.transactionHash);
+    console.log("Transaction hash before wait:", tx.hash);
+    console.log("Transaction hash:", receipt.hash || receipt.transactionHash);
 };
 
 const main = async () => {
