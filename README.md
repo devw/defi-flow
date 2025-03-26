@@ -10,7 +10,7 @@ npx hardhat node
 npx hardhat ignition deploy ./ignition/modules/Lock.js
 ```
 
-# DEPLOYMENTS.md
+# DEPLOYMENTS
 
 ## Sepolia Network
 
@@ -18,8 +18,28 @@ npx hardhat ignition deploy ./ignition/modules/Lock.js
 -   **Deployer Address**: `0x25b...`
 -   **Uniswap Router**: `0x3bF...`
 
-| Address                                | Purpose                                                | Security Level |
-| -------------------------------------- | ------------------------------------------------------ | -------------- |
+| Address                       | Purpose                                                | Security Level |
+| ----------------------------- | ------------------------------------------------------ | -------------- |
 | `0x3cb...` (Swap Contract)    | Your deployed contract address (share publicly)        | 🔵 **Public**  |
 | `0x25b...` (Deployer Address) | Your EOA (Externally Owned Account) - **keep private** | 🔴 **Private** |
 | `0x3bF...` (Uniswap Router)   | Sepolia's Uniswap router (public infrastructure)       | 🔵 **Public**  |
+
+## Verify your smart contract
+
+The command `npx hardhat verify --network sepolia` is used to verify your smart contract on the Etherscan block explorer for the Sepolia network.
+
+```
+npx hardhat verify --network sepolia \
+<deployed_contract_address> \
+<Uniswap-SwapRouter-Address> \
+<DAI-Address> \
+<WETH9-Address>
+```
+
+For reference, please see the deployed contract at:
+https://sepolia.etherscan.io/address/0xc90F75633540CFA9A5cD34e9456E3c509A61a107#code
+
+Where:
+- Contract Address: 0xc90F75633540CFA9A5cD34e9456E3c509A61a107
+- Blockchain: Ethereum Sepolia Testnet
+- Access: Full source code verification available via Etherscan
