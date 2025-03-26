@@ -1,0 +1,22 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Hardhat Script",
+            "type": "node",
+            "request": "launch",
+            "program": "${workspaceFolder}/node_modules/.bin/hardhat",
+            "args": [
+                "run",
+                "scripts/swap-tokens.js",
+                "--network",
+                "hardhat"
+            ],
+            "console": "integratedTerminal",
+            "env": {
+                "NETWORK": "hardhat"
+            },
+            "cwd": "${workspaceFolder}"
+        }
+    ]
+}
