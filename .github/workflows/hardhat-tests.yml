@@ -26,3 +26,6 @@ jobs:
 
       - name: Run Tests
         run: npx hardhat test --network hardhat
+        env:
+          ALCHEMY_API_URL: ${{ secrets.ALCHEMY_API_URL }}
+          PRIVATE_KEY: ${{ secrets.PRIVATE_KEY }}
